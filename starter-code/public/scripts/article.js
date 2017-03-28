@@ -44,7 +44,6 @@
 
   // DONE: Chain together a `map` and a `reduce` call to get a rough count of all words in all articles.
   Article.numWordsAll = () => {
-    console.log(Article.all);
     return Article.all.map(function(article){
       return article.body.split(' ').length;
     }).reduce((acc, val) => acc + val);
