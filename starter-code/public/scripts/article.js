@@ -2,9 +2,9 @@
 
 // REVIEW: Check out all of the functions that we've cleaned up with arrow function syntax.
 
-// DONE: Wrap the entire contents of this file in an IIFE.
+// TODO: Wrap the entire contents of this file in an IIFE.
 // Pass in to the IIFE a module, upon which objects can be attached for later access.
-(function articleUnicorn(module){
+(function(module){
 
   function Article(opts) {
     // REVIEW: Lets review what's actually happening here, and check out some new syntax!!
@@ -42,26 +42,35 @@
     )
   };
 
-  // TODO: Chain together a `map` and a `reduce` call to get a rough count of all words in all articles.
+  // DONE: Chain together a `map` and a `reduce` call to get a rough count of all words in all articles.
   Article.numWordsAll = () => {
-    return Article.all.map().reduce()
+    console.log(Article.all);
+    return Article.all.map(function(article){
+      return article.body.split(' ').length;
+    }).reduce((acc, val) => acc + val);
   };
 
-  // TODO: Chain together a `map` and a `reduce` call to produce an array of unique author names.
+  // DONE: Chain together a `map` and a `reduce` call to produce an array of unique author names.
   Article.allAuthors = () => {
-    return Article.all.map(function(article){
-      console.log('help');
-      return article.author;
-    }).reduce();
+    return Article.all.map(article => article.author).reduce(function(acc, ele){
+      if (acc.indexOf(ele) === -1){
+        acc.push(ele);
+      }
+      return acc;
+    }, []);
   };
 
   Article.numWordsByAuthor = () => {
     return Article.allAuthors().map(author => {
-      // TODO: Transform each author string into an object with properties for
+      // DONE: Transform each author string into an object with properties for
       // the author's name, as well as the total number of words across all articles
       // written by the specified author.
-
-
+      return{
+        name: author,
+        wordCount: Article.all.filter(function(article){
+          return article.author === author;
+        }).map(article => article.body.split(' ').length).reduce((acc, val) => acc + val)
+      }
     })
   };
 
@@ -110,3 +119,6 @@
 
   module.Article = Article;
 }(window));
+
+// Article.loadAll();
+// Article.numWordsAll();
